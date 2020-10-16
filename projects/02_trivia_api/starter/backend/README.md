@@ -89,55 +89,24 @@ GET '/categories'
 
 ```
 
-## API Reference
+Documentation of Endpoints 
 
-### Getting Started
-- Base URL: currently the server runs locally on `http://192.168.1.1:81/`.
-
-### Error Handling
-Flask's `@app.errorhandler` decorators are implemented for:
-- 400: Bad request
-- 404: Resource not found
-- 405: Method not allowed
-- 422: Unprocessable entity
-
-Errors are returned as JSON objects in the following format:
-```
-{
-    "success": False, 
-    "error": 400,
-    "message": "Bad request"
-}
-```
+GET '/categories'
+-  Returns a list of categories. 
+{'1' : "Science",
+'2' : "Art",
+'3' : "Geography",
+'4' : "History",
+'5' : "Entertainment",
+'6' : "Sports"}
 
 
-### Endpoints 
-
-### Categories
-
-#### GET /categories
-- General:
-    - Returns the list of categories, success value, and the current category.
-- Sample: `curl http://192.168.1.1:81/categories`
-
-```{
-    "categories": {
-        "1":"Science",
-        "2":"Art",
-        "3":"Geography",
-        "4":"History",
-        "5":"Entertainment",
-        "6":"Sports"},
-    "current_category":null,
-    "success":true
-}
-```
-
-#### GET /categories/{cat_id}/questions
-- General:
-    - Returns a list of questions that belong to the request category. Also returns a success value, the total number of questions, and the current category.
-    - The list of questions is paginated in groups of 10. Include a request argument to choose page number, starting from 1.
-- Sample: `curl http://192.168.1.1:81/categories/2/questions`
+GET /categories/{cat_id}/questions
+- returns current category id.
+  returns a list of questions that belong to the category by category id.
+  returns a success value
+  returns count of questions
+  
 ```
 {
    "current_category":2,
@@ -183,13 +152,15 @@ Errors are returned as JSON objects in the following format:
 }
 ```
 
-### Questions
+Questions
 
-#### GET /questions
-- General:
-    - Returns the list of categories, the current category, a list of questions, the total number of questions, and a success value. 
-    - Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1.
-- Sample: `curl http://192.168.1.1:81/questions`
+GET /questions
+- Returns the list of categories
+ Returns current category ID
+ Returns list of questions
+ Returns count of questions
+ Returns success value. 
+
 ```
 {
    "categories":{
@@ -277,40 +248,45 @@ Errors are returned as JSON objects in the following format:
    "total_questions":19
 }
 ```
-#### DELETE /questions/{question_id}
-- General:
-    - Deletes the question of the given ID if it exists. Returns the id of the deleted question and a success value. 
-- Sample: `curl -X DELETE http://192.168.1.1:81/questions/3?page=2`
+DELETE /questions/{question_id}
+- Deletes the question by question ID 
+- Returns the id of the deleted question
+  Returns success value. 
+
 ```
 {
     "id":3,
     "success":true
 }
 ```
-#### POST /questions/
-- General:
-    - Creates a new question resource using the submitted question, answer, difficulty, and category. Returns a success value.
-- Sample: `curl http://192.168.1.1:81/questions? -X POST -H "Content-Type: application/json" -d '{"question": "Are tests working?", "answer": "Yes", "difficulty": 1, "category": 3}'`
+POST /questions/
+
+- add a new question
+- Returns success value.
 ```
 {
   "success": true
 }
 ```
 
-#### POST /questions/search
-- General:
-    - Searches for questions based on the `searchTerm` provided in the request body. Retunrs a list of matching questions, the number of matching questions, the current category, and a success value.
-- Sample: `curl http://192.168.1.1:81/questions/search? -X POST -H "Content-Type: application/json" -d '{"searchTerm": "largest lake in Africa"}'`
+POST /questions/search
+- Searches for questions with searchTerm "Taj Mahal"
+- Retunrs the category id
+  Retunrs a list of matching questions
+  Retunrs success value.
+  Retunrs count of questions
+  
+  
 ```
 {
    "current_category":null,
    "questions":[
       {
-         "answer":"Lake Victoria",
+         "answer":"Agra",
          "category":3,
          "difficulty":2,
-         "id":13,
-         "question":"What is the largest lake in Africa?"
+         "id":15,
+         "question":"The Taj Mahal is located in which Indian city?"
       }
    ],
    "success":true,
@@ -318,18 +294,17 @@ Errors are returned as JSON objects in the following format:
 }
 ```
 
-#### POST /quizzes
-- General:
-    - The body of this request contains a category value (can be null) and a list of previously asked questions. The response contains a random question from the provided category that is not in the previous questions list. Returns a question and a success value.
-- Sample: `curl http://192.168.1.1:81/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [], "quiz_category": {"type": "Science", "id": 5}}'`
+POST /quizzes
+- Returns a question and a success value.
+
 ```
 {
    "question":{
-      "answer":"Edward Scissorhands",
-      "category":5,
-      "difficulty":3,
-      "id":6,
-      "question":"What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+         "answer":"Agra",
+         "category":3,
+         "difficulty":2,
+         "id":15,
+         "question":"The Taj Mahal is located in which Indian city?"
    },
    "success":true
 }
